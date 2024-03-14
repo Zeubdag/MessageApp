@@ -5,7 +5,6 @@ import main.java.com.ubo.tp.message.core.database.Database;
 import main.java.com.ubo.tp.message.core.database.IDatabase;
 import main.java.com.ubo.tp.message.ihm.DatabaseObserver;
 import main.java.com.ubo.tp.message.ihm.MessageApp;
-import mock.MessageAppMock;
 
 /**
  * Classe de lancement de l'application.
@@ -14,10 +13,6 @@ import mock.MessageAppMock;
  */
 public class MessageAppLauncher {
 
-	/**
-	 * Indique si le mode bouchoné est activé.
-	 */
-	protected static boolean IS_MOCK_ENABLED = false;
 
 	/**
 	 * Launcher.
@@ -31,11 +26,6 @@ public class MessageAppLauncher {
 	
 		DatabaseObserver logObserver = new DatabaseObserver();
 		database.addObserver(logObserver);
-
-		if (IS_MOCK_ENABLED) {
-			MessageAppMock mock = new MessageAppMock(database, entityManager);
-			mock.showGUI();
-		}
 
 		MessageApp messageApp = new MessageApp(database, entityManager);
 		messageApp.init();

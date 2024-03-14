@@ -15,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import main.java.com.ubo.tp.message.ihm.session.Session;
+import main.java.com.ubo.tp.message.ihm.view.CreateMessage;
 import main.java.com.ubo.tp.message.ihm.view.Menu;
+import main.java.com.ubo.tp.message.ihm.view.ReadMessage;
 import main.java.com.ubo.tp.message.ihm.view.RegisterUser;
 import main.java.com.ubo.tp.message.ihm.view.SignIn;
 
@@ -34,6 +36,10 @@ public class MessageAppMainView {
 	
 	public Menu viewMenuBar;
 	
+	public ReadMessage viewReadMessage;
+	
+	public CreateMessage viewCreateMessage;
+	
 	public JPanel jPanel;
 	
 	public Boolean isConnected;
@@ -41,11 +47,13 @@ public class MessageAppMainView {
 	public Session session;
 
 	public MessageAppMainView(Session session) {
-		observer = new HashSet<>();
+		this.observer = new HashSet<>();
+		this.messagesObserver = new HashSet<>();
 		this.viewRegister = new RegisterUser();
 		this.viewSignIn = new SignIn();
-		
+		this.viewReadMessage = new ReadMessage();
 		this.viewMenuBar = new Menu();
+		this.viewCreateMessage = new CreateMessage();
 		this.isConnected = false;
 		this.session = session;
 	}
@@ -75,6 +83,15 @@ public class MessageAppMainView {
 	public void refreshMenu (JFrame mainFrame) {
 		this.viewMenuBar.refreshMenuBar(mainFrame, this);
 	}
+	
+	public void blankPanel (JFrame mainFrame) {
+		mainFrame.remove(this.jPanel);
+		this.jPanel = new JPanel();
+		this.jPanel.setLayout(new GridBagLayout());
+		mainFrame.add(this.jPanel);
+		mainFrame.revalidate();
+		mainFrame.repaint();
+	}
 
 	public File fileChooser() {
 		JFrame frame = new JFrame();
@@ -86,6 +103,10 @@ public class MessageAppMainView {
 
 	public void addObserver(ViewObserver obs) {
 		this.observer.add(obs);
+	}
+	
+	public void addMessageObserver(MessagesViewObserver obs) {
+		this.messagesObserver.add(obs);
 	}
 
 	public void notifyObserverRegister(JTextField nom, JTextField tag, JTextField mdp, JFrame mainFrame) {
@@ -103,8 +124,9 @@ public class MessageAppMainView {
 
 	public void notifyObserverMessageSend(JTextField text) {
 		for (MessagesViewObserver obs : this.messagesObserver) {
-			obs.notifyCreateMessage(text.getSelectedText());
+			obs.notifyCreateMessage(text.getText());
 		}
+		
 		
 	}
 }

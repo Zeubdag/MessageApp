@@ -48,6 +48,10 @@ public class SignIn {
 
 	class ButtonSignup extends AbstractAction {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 623290644400010296L;
 		protected MessageAppMainView view;
 		protected JTextField tag;
 		protected JTextField mdp;

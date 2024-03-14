@@ -1,12 +1,9 @@
 package main.java.com.ubo.tp.message.ihm;
 
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.HashSet;
 import java.util.UUID;
 
-import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import main.java.com.ubo.tp.message.core.EntityManager;
@@ -73,6 +70,7 @@ public class MessageApp implements ViewObserver, ISessionObserver, MessagesViewO
 		this.mMainView = new MessageAppMainView(this.session);
 		this.mainFrame = new JFrame("MessageApp");
 		this.mMainView.addObserver(this);
+		this.mMainView.addMessageObserver(this);
 		this.session.addObserver(this);
 	}
 
@@ -157,6 +155,7 @@ public class MessageApp implements ViewObserver, ISessionObserver, MessagesViewO
 				if (u.getUserPassword().equals(mdp)) {
 					this.mMainView.session.connect(u);
 					this.mMainView.refreshMenu(mainFrame);
+					this.mMainView.blankPanel(mainFrame);
 				}
 			}
 		}
@@ -177,6 +176,6 @@ public class MessageApp implements ViewObserver, ISessionObserver, MessagesViewO
 	public void notifyCreateMessage(String text) {
 		Message m = new Message(this.session.getConnectedUser(), text);
 		this.mDatabase.addMessage(m);
-		
+		this.mMainView.viewReadMessage.viewReadMessage(m, this.mainFrame, this.mMainView);
 	}
 }

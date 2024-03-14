@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -54,6 +55,10 @@ public class RegisterUser {
 
 	class ButtonRegister extends AbstractAction {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2405796532980624028L;
 		protected MessageAppMainView view;
 		protected JTextField nom;
 		protected JTextField tag;
@@ -70,7 +75,12 @@ public class RegisterUser {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			this.view.notifyObserverRegister(nom, tag, mdp, mainFrame);
+			if (nom.getText().length() > 0 && tag.getText().length() > 0 && mdp.getText().length() > 0) {
+				this.view.notifyObserverRegister(nom, tag, mdp, mainFrame);
+			}
+			else {
+				JOptionPane.showMessageDialog(mainFrame, "Remplissez tout les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 	}

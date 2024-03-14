@@ -42,19 +42,18 @@ public class Menu {
 			JMenu messagerie = new JMenu("Messagerie");
 			
 			JMenuItem ecrireMessage = new JMenuItem("Ecrire message");
-			
+			ecrireMessage.addActionListener(new SwitchWriteMessage(view, mainFrame));
 			messagerie.add(ecrireMessage);
 			
 			upperMenuBar.add(compteMenu);
 			upperMenuBar.add(messagerie);
-			//System.out.println("isConnected true");
 		}
 
-		JMenu aProposMenu = new JMenu();
+		/*JMenu aProposMenu = new JMenu();
 		aProposMenu.setText("Menu");
 
 		JMenuItem item = new JMenuItem("A propos");
-		aProposMenu.add(item);
+		aProposMenu.add(item);*/
 
 		JMenu otherMenu = new JMenu();
 		otherMenu.setText("?");
@@ -64,7 +63,7 @@ public class Menu {
 		otherMenu.add(leave);
 
 		
-		upperMenuBar.add(aProposMenu);
+		//upperMenuBar.add(aProposMenu);
 		upperMenuBar.add(otherMenu);
 
 		mainFrame.setJMenuBar(upperMenuBar);
@@ -79,6 +78,8 @@ public class Menu {
 	
 	
 	static class Leave extends AbstractAction {
+		
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -88,7 +89,9 @@ public class Menu {
 	}
 	
 	class SwitchRegister extends AbstractAction {
-
+		
+		private static final long serialVersionUID = -442894757381385349L;
+		
 		JFrame mainFrame;
 		MessageAppMainView view;
 
@@ -100,12 +103,13 @@ public class Menu {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			view.viewRegister.viewRegisterUser(mainFrame, view);
-			//mainFrame.repaint();
 		}
 	}
 
 	class SwitchSignup extends AbstractAction {
-
+		
+		private static final long serialVersionUID = 1574743513104191369L;
+		
 		JFrame mainFrame;
 		MessageAppMainView view;
 
@@ -117,12 +121,16 @@ public class Menu {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			view.viewSignIn.viewSignIn(mainFrame, view);
-			//mainFrame.repaint();
 		}
 	}
 	
 	class SwitchDisconnection extends AbstractAction {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1520308407101539843L;
+		
 		JFrame mainFrame;
 		MessageAppMainView view;
 
@@ -135,7 +143,28 @@ public class Menu {
 		public void actionPerformed(ActionEvent e) {
 			view.session.disconnect();
 			view.viewSignIn.viewSignIn(mainFrame, view);
-			//mainFrame.repaint();
+			view.isConnected = false;
+			view.viewMenuBar.refreshMenuBar(mainFrame, view);
+		}
+	}
+	
+	class SwitchWriteMessage extends AbstractAction {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5201247616541146418L;
+		MessageAppMainView view;
+		JFrame mainFrame;
+		
+		public SwitchWriteMessage(MessageAppMainView view, JFrame mainFrame) {
+			this.view = view;
+			this.mainFrame = mainFrame;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			this.view.viewCreateMessage.viewCreateMessage(mainFrame, view);
 		}
 	}
 
